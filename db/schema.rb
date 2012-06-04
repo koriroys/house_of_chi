@@ -13,4 +13,19 @@
 
 ActiveRecord::Schema.define(:version => 20120604051828) do
 
+  create_table "playlists", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "tracks", :force => true do |t|
+    t.string   "source"
+    t.string   "url"
+    t.string   "added_by"
+    t.datetime "posted_on"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
 end
