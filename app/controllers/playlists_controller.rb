@@ -1,11 +1,11 @@
 class PlaylistsController < ApplicationController
 
-  FB_ACCESS_TOKEN = 'AAACEdEose0cBAAYqxcKCCCXp7TAkEXWDeudkmLp5tixuNpbTeWJlGKbZBpgspdnT5rtEAZAES1DnExxUvQmRmZBAJ8ioCKloVX2uMZCVAQZDZD'
+  FB_ACCESS_TOKEN = 'AAACEdEose0cBANk2STnqZC8B20DBXnAdtDGi0ZBDJEvBa6ZCjiIVYsFfJ6J8PtwFPsUuCYIhP1xtpmKlE6soZAdFDXznEFfryHUD5HtM2AZDZD'
 
   def index
     @playlists = []
     graph = Koala::Facebook::API.new(FB_ACCESS_TOKEN)
-    @array = graph.get_connections('179298008840024', 'feed')
+    @array = graph.get_connections('179298008840024', 'feed', {fields: 'id,from,link,created_time'})
     @hoc = @array.map{ |item| item if item['link'] =~ /youtube|soundcloud/i }.compact
   end
 
