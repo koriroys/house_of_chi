@@ -1,7 +1,10 @@
 HouseOfChiPlaylist::Application.routes.draw do
-  root :to => 'playlists#index'
+  root :to => 'static_pages#index'
 
   get '/tracks' => 'tracks#index'
+  get '/playlists' => 'playlists#index'
 
   get '/auth/facebook/callback' => 'sessions#create'
+  match 'auth/failure', to: redirect('/')
+  get 'signout' => 'sessions#destroy', as: 'signout'
 end

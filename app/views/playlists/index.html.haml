@@ -1,16 +1,14 @@
-= link_to "Sign in with Facebook", "/auth/facebook"
+%h1 Listing Playlists
 
--#%h1 Listing Playlists
-
--#%table
-  -#%tr
-    -#%th Link
-    -#%th Time Added
-    -#%th Added By
-  -#= @playlists
-  -#- @hoc.each do |item|
-    -#%tr
-      -#%td= link_to item['link'], item['link']
-      -#%td= item['created_time']
-      -#%td= item['from']['name']
+%table
+  %tr
+    %th Link
+    %th Time Added
+    %th Added By
+  = @playlists
+  - @hoc.each do |item|
+    %tr
+      %td= link_to item['link'], item['link']
+      %td= item['created_time']
+      %td= item['from']['name']
 -#= @array
