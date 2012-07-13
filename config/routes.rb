@@ -3,9 +3,11 @@ HouseOfChiPlaylist::Application.routes.draw do
 
   get '/tracks' => 'tracks#index'
   get '/playlists' => 'playlists#index'
+  get '/feed' => 'playlists#feed'
 
   get '/auth/facebook/callback' => 'sessions#create'
   match 'auth/failure', to: redirect('/')
   get 'signout' => 'sessions#destroy', as: 'signout'
+  
 
 end

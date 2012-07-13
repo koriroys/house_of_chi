@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  def establish_fb_connection
+    @graph ||= Koala::Facebook::API.new(session[:fb_token])
+  end
+
   private #-------------------------------------------
 
   def current_user

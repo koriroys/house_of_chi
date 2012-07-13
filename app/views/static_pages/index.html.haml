@@ -1,2 +1,4 @@
-%p I put stuff here!
-= link_to "HoC playlist", playlists_path
+%p
+  = link_to "HoC playlist", playlists_path(group_id: '179298008840024')
+- if Rails.env.development?
+  = link_to "TestGroup Playlist", playlists_path(group_id: '345339485542329')
