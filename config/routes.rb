@@ -8,6 +8,5 @@ HouseOfChiPlaylist::Application.routes.draw do
   get '/auth/facebook/callback' => 'sessions#create'
   match 'auth/failure', to: redirect('/')
   get 'signout' => 'sessions#destroy', as: 'signout'
-  
 
 end
