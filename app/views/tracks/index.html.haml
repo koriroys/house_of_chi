@@ -1,1 +1,7 @@
-Hi!
+%p
+  - @tracks.each do |track|
+    %p
+      = "#{track.posted_on}"
+      = "by: #{track.user.name}."
+      = "Link:"
+      = link_to("#{track.url}", track.url)
