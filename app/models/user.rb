@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  has_many :tracks
+
+  attr_accessible :name, :uid, :provider
 
   validates :name, :uid, :provider, presence: true
 

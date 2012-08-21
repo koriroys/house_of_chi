@@ -9,7 +9,7 @@ class FirstMigration < ActiveRecord::Migration
     create_table :tracks do |t|
       t.string :source # youtube|soundcloud
       t.string :url
-      t.string :added_by
+      t.integer :user_id
       t.datetime :posted_on
 
       t.timestamps
@@ -19,6 +19,7 @@ class FirstMigration < ActiveRecord::Migration
       t.string :provider
       t.string :uid
       t.string :name
+      t.string :fb_token
 
       t.timestamps
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713073920) do
+ActiveRecord::Schema.define(:version => 20120604051828) do
 
   create_table "playlists", :force => true do |t|
     t.string   "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20120713073920) do
   create_table "tracks", :force => true do |t|
     t.string   "source"
     t.string   "url"
-    t.string   "added_by"
+    t.integer  "user_id"
     t.datetime "posted_on"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(:version => 20120713073920) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
+    t.string   "fb_token"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "fb_token"
   end
 
 end
