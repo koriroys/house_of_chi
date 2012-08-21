@@ -1,17 +1,25 @@
 require 'spec_helper'
 
 describe User do
-  describe "#from_omniauth" do
-    it "returns a user if that user already exists, else creates a user" do
-      count = User.count
-      auth = { provider: 'fb', uid: '4444', info: { name: 'kori' } }.as_json
-      auth2 = { provider: 'fb', uid: '111', info: { name: 'cristy' } }.as_json
-      user = User.from_omniauth(auth)
-      User.count.should == count + 1
-      User.from_omniauth(auth).should == user
-      User.count.should == count + 1
-      User.from_omniauth(auth2)
-      User.count.should == count + 2
+  let (:auth) { { provider: 'fb', uid: '4444', info: { name: 'kori' } }.as_json }
+
+  describe "#create_from_omniauth" do
+    it "creates a new user given auth information" do
+      expect{ User.create_from_omniauth auth }.to change(User, :count).by(1)
     end
   end
+
+  describe "#from_omniauth" do
+    it "returns a user if that user already exists" do
+      user = User.from_omniauth auth
+      expect{ User.from_omniauth auth }.not_to change(User, :count)
+      expect(User.from_omniauth auth).to eq(user)
+    end
+
+    it "creates a user if that user does not yet exist" do
+      auth2 = { provider: 'fb', uid: '4441', info: { name: 'sylvia' } }.as_json
+      expect{ User.from_omniauth auth2 }.to change(User, :count).by(1)
+    end
+  end
+
 end

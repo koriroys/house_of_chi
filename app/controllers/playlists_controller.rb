@@ -3,7 +3,7 @@ class PlaylistsController < ApplicationController
   before_filter :establish_fb_connection
 
   def index
-    @array = @graph.get_connections(params[:group_id], 'feed?since=yesterday&limit=100', {fields: 'id,from,link,created_time'})
+    @array = fetch_wall_posts(params[:group_id])
   rescue Koala::Facebook::APIError
     redirect_to root_url, notice: "Please log in to see playlists!"
   else
@@ -14,7 +14,7 @@ class PlaylistsController < ApplicationController
 
   def feed
     graph = Koala::Facebook::API.new(session[:fb_token])
-    @feed = graph.get_connections(params[:group_id], 'feed?since=yesterday&limit=100')
+    @feed = graph.get_connections(params[:group_id], 'feed?since=yesterday&limit=200')
     render json: [ @feed.size, @feed ]
   end
 
