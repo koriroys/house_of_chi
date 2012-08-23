@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
 
   def establish_fb_connection
-    @graph ||= Koala::Facebook::API.new(session[:fb_token])
+    @graph ||= Koala::Facebook::API.new(current_user.fb_token)
   end
 
   def fetch_wall_posts(group_id)

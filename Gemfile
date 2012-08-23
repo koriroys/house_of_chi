@@ -14,6 +14,8 @@ group :development, :test do
   gem 'sqlite3'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'capybara'
+  gem 'debugger'
 end
 
 group :production do
