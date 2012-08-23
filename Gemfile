@@ -3,11 +3,12 @@ source 'https://rubygems.org'
 # Platform
 gem 'rails', '3.2.3'
 gem 'jquery-rails'
-gem 'omniauth-facebook'
 
 # Application
 gem 'koala'
 gem 'haml-rails'
+gem 'omniauth-facebook'
+gem 'simplecov', :require => false, :group => :test
 
 group :development, :test do
   gem 'sqlite3'
