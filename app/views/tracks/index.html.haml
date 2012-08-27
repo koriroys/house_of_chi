@@ -1,8 +1,8 @@
 %p
-  - @tracks.each do |track|
+  - @tracks.each_with_index do |track, i|
     %p
+      = "#{i + 1}. "
+      = link_to("#{track.url}", track.url)
       = (track.posted_on.localtime).strftime("Posted on %B %d at %-l:%M %p")
       - name = track.user.name.split(" ")
       = "by #{name.first} #{name.last[0]}."
-      = "Link:"
-      = link_to("#{track.url}", track.url)

@@ -6,6 +6,7 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
     %body
+      = image_tag "house_of_chi.jpg", width: 600
       - if flash[:notice]
         %p.flash
           = flash[:notice]
