@@ -35,16 +35,4 @@ HouseOfChiPlaylist::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
-    :provider => 'facebook',
-    :uid => '13708826',
-    :info => {
-      name: 'Kori John Roys'
-    },
-    :credentials => {
-      token: 'xxx'
-    }
-    # etc.
-  })
 end
