@@ -1,10 +1,20 @@
 require 'spec_helper'
 require 'helpers/omniauth_helper'
 
-describe "login" do
-  it "auths with facebook" do
+describe "authentication" do
+  before do
     visit root_url
     click_link 'Sign in with Facebook'
+  end
+
+  it "logs in with facebook" do
     expect(page).to have_content('Signed in as')
+    expect(current_path).to eq(root_path)
+  end
+
+  it "logs the current user out" do
+    click_link 'Sign out'
+    expect(page).to have_content('Signed out')
+    expect(current_path).to eq(root_path)
   end
 end
