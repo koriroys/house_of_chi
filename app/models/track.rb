@@ -10,4 +10,5 @@ class Track < ActiveRecord::Base
 
   scope :from_yesterday, ->{ where("created_at < ?", 1.day.ago) }
   scope :exists, ->(url, user_id){ where("url = ? AND user_id = ?", url, user_id) }
+  scope :get_all, ->{ find(:all, order: 'posted_on DESC') }
 end
