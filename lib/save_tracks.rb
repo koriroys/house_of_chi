@@ -15,8 +15,13 @@ class SaveTracks
     feed.each do |item|
       user = User.find_by_uid(item['from']['id'])
       source_site = item['link'].match(/youtube|soundcloud/).to_s
+      if source_site == 'youtube'
+        url = "http://www.youtube.com/watch?v=#{item['link'].match(/v=(\w*)/)[1]}"
+      else
+        url = item['link']
+      end
       unless Track.exists(item['link'], user.id).present?
-        Track.create(source: source_site, url: item['link'], user: user, posted_on: item['created_time'])
+        Track.create(source: source_site, url: url, user: user, posted_on: item['created_time'])
       end
     end
   end
