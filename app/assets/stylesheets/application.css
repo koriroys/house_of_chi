@@ -28,6 +28,10 @@ body {
   font-size: 2em;
 }
 
+.text {
+  color: #52bff6;
+}
+
 .button {
   float: right;
   background-color: #52bff6;
