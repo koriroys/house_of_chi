@@ -11,8 +11,30 @@
  *= require_self
  *= require_tree .
 */
+.banner {
+  float: left;
+}
+
+body {
+  width: 800px;
+}
+
+.content {
+  clear: both;
+}
 
 .flash {
-  color: red;
+  color: #52bff6;
   font-size: 2em;
+}
+
+.button {
+  float: right;
+  background-color: #52bff6;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.button_pressed {
+  background-color: red;
 }

@@ -13,3 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//
+$(function() {
+  $('.button').mousedown(function() {
+    $(this).addClass("button_pressed");
+  });
+  $('.button').mouseup(function() {
+    $(this).removeClass("button_pressed");
+  });
+  $('.button').mouseout(function() {
+    $(this).removeClass("button_pressed");
+  });
+});

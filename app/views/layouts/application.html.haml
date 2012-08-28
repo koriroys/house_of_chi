@@ -6,13 +6,14 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
     %body
-      = image_tag "house_of_chi.jpg", width: 600
+      = image_tag "house_of_chi.jpg", width: 600, class: 'banner'
       - if flash[:notice]
         %p.flash
           = flash[:notice]
       - if current_user
         = "Signed in as #{current_user.name}"
-        = link_to "Sign out", signout_path
+        = button_to "Sign out", signout_path, class: 'button', method: 'get'
       - else
-        = link_to "Sign in with Facebook", "/auth/facebook"
-    = yield
+        = button_to "Sign in with Facebook", "/auth/facebook", class: 'button', method: 'get'
+    %div.content
+      = yield
