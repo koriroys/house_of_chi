@@ -16,7 +16,7 @@ class SaveTracks
       user = User.find_by_uid(item['from']['id'])
       source_site = item['link'].match(/youtube|soundcloud/).to_s
       if source_site == 'youtube'
-        url = "http://www.youtube.com/watch?v=#{item['link'].match(/v=(\w*)/)[1]}"
+        url = item['link'].match(/v=([^&])/)[1].to_s
       else
         url = item['link']
       end
