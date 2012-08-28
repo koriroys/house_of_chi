@@ -16,3 +16,6 @@
 
 # Ignore SimpleCov results
 /coverage
+
+# ignore env variables file
+/config/initializers/_ENV.rb
