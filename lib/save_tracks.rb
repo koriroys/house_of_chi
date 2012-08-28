@@ -21,7 +21,7 @@ class SaveTracks
         url = item['link']
       end
       unless Track.exists(url, user.id).present?
-        Track.create(source: source_site, url: url, user: user, posted_on: item['created_time'])
+        Track.create(source: source_site, url: url, user: user, posted_on: item['created_time'], title: item['name'])
       end
     end
   end
@@ -37,6 +37,6 @@ class SaveTracks
     user = User.find_by_uid('13708826')
     graph = Koala::Facebook::API.new(user.fb_token)
     ## house of chi feed
-    graph.get_connections(HOC_GROUP_NUMBER, 'feed?since=yesterday&limit=200', { fields: 'id,from,link,created_time' })
+    graph.get_connections(HOC_GROUP_NUMBER, 'feed?since=yesterday&limit=200', { fields: 'id,from,link,created_time,name' })
   end
 end
