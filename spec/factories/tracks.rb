@@ -4,7 +4,7 @@ FactoryGirl.define do
     source "youtube"
     url 'http://www.youtube.com/watch?v=9vXjfhgqqeI'
     user
-    posted_on = 1.day.ago
+    posted_on 1.day.ago
   end
 end
 

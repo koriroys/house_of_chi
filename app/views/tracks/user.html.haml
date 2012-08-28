@@ -1,3 +1,7 @@
+%h2.text
+  Tracks posted by
+  = "#{@user.first_name} #{@user.last_initial}."
+
 %table
   - @tracks.each_with_index do |track, i|
     %tr
@@ -9,4 +13,4 @@
         = (track.posted_on - 6.hours).strftime("Posted on %B %d at %-l:%M %p")
       %td
         by
-        = link_to "#{track.user.first_name} #{track.user.last_initial}.", user_tracks_path(track.user)
+        = "#{track.user.first_name} #{track.user.last_initial}."

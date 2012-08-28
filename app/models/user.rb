@@ -16,4 +16,12 @@ class User < ActiveRecord::Base
       user.name = auth['info']['name']
     end
   end
+
+  def first_name
+    name.split(" ")[0]
+  end
+
+  def last_initial
+    name.split(" ").last[0]
+  end
 end

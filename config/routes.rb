@@ -4,6 +4,7 @@ HouseOfChiPlaylist::Application.routes.draw do
   get '/tracks' => 'tracks#index'
   get '/playlists' => 'playlists#index'
   get '/feed' => 'playlists#feed'
+  get '/tracks/user/:id' => 'tracks#user', as: 'user_tracks'
 
   get '/auth/facebook/callback' => 'sessions#create'
   match 'auth/failure', to: redirect('/')
