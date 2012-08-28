@@ -1,5 +1,6 @@
 class SaveTracks
   HOC_GROUP_NUMBER = '179298008840024'
+  SOURCE_SITE = { 'youtube' => 'youtube', 'youtu.be' => 'youtube', 'soundcloud' => 'soundcloud' }
 
   def house_of_chi
     feed = filter_links(hoc_feed)
@@ -23,6 +24,30 @@ class SaveTracks
       unless Track.exists(url, user.id).present?
         Track.create(source: source_site, url: url, user: user, posted_on: item['created_time'], title: item['name'])
       end
+
+      # comments section
+      # TODO: clean up duplicate code
+      # next line here because example data is stale eg doesn't have 'comments'
+      if item['comments']
+        if item['comments']['count'] > 0
+          comments(item['comments']['data'])
+        end
+      end
+    end
+  end
+
+  def comments(data)
+    create_new_users(data)
+
+    data.each do |comment|
+      user = User.find_by_uid(comment['from']['id'])
+      url = comment['message'].match(/http:\/\/\S*/).to_s
+      source_site = comment['message'].match(/youtube|soundcloud|youtu\.be/).to_s
+      if url.present? && SOURCE_SITE.has_key?(source_site)
+        unless Track.exists(url, user.id).present?
+          Track.create(source: SOURCE_SITE[source_site], url: url, user: user, posted_on: comment['created_time'], title: comment['name'])
+        end
+      end
     end
   end
 
@@ -37,6 +62,6 @@ class SaveTracks
     user = User.find_by_uid('13708826')
     graph = Koala::Facebook::API.new(user.fb_token)
     ## house of chi feed
-    graph.get_connections(HOC_GROUP_NUMBER, 'feed?since=yesterday&limit=200', { fields: 'id,from,link,created_time,name' })
+    graph.get_connections(HOC_GROUP_NUMBER, 'feed?since=yesterday&limit=200', { fields: 'id,from,link,created_time,name,comments' })
   end
 end
