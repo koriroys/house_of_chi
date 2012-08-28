@@ -20,7 +20,7 @@ class SaveTracks
       else
         url = item['link']
       end
-      unless Track.exists(item['link'], user.id).present?
+      unless Track.exists(url, user.id).present?
         Track.create(source: source_site, url: url, user: user, posted_on: item['created_time'])
       end
     end
