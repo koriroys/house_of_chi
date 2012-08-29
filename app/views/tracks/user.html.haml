@@ -11,6 +11,3 @@
         = link_to(truncate(track.title, length: 57) || "ID", track.url)
       %td
         = (track.posted_on - 6.hours).strftime("Posted on %B %d at %-l:%M %p")
-      %td
-        by
-        = "#{track.user.first_name} #{track.user.last_initial}."
