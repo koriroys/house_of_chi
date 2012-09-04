@@ -6,8 +6,8 @@
   - @tracks.each_with_index do |track, i|
     %tr
       %td
-        = "#{i + 1}. "
+        = "#{i + 1}."
       %td
-        = link_to(truncate(track.title, length: 57) || "ID", track.url)
+        = link_to(truncate(track.title, length: 57) || "ID", track.url, target: '_blank')
       %td
         = (track.posted_on - 6.hours).strftime("Posted on %B %d at %-l:%M %p")
