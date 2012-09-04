@@ -2,6 +2,7 @@ class SaveTracks
   HOC_GROUP_NUMBER = '179298008840024'
   SOURCE_SITE = { 'youtube' => 'youtube', 'youtu.be' => 'youtube', 'soundcloud' => 'soundcloud' }
 
+  #TODO: better names.
   def house_of_chi
     feed = filter_links(hoc_feed)
     create_new_users(feed)
@@ -12,10 +13,12 @@ class SaveTracks
     feed.select {|item| item['link'] =~ /youtube|soundcloud/i }
   end
 
+  #TODO: item rename to 'post'
   def create_tracks_from_feed(feed)
     feed.each do |item|
-      user = User.find_by_uid(item['from']['id'])
-      source_site = item['link'].match(/youtube|soundcloud/).to_s
+      user = User.find_by_uid(item['from']['id']) # item.from_id
+      source_site = item['link'].match(/youtube|soundcloud/).to_s #item.source_site
+      #TODO: conditional => method
       if source_site == 'youtube'
         url = item['link'].match(/([^&]*)/)[1].to_s
       else
@@ -36,6 +39,7 @@ class SaveTracks
     end
   end
 
+  #TODO: extraction
   def comments(data)
     create_new_users(data)
 
@@ -53,6 +57,7 @@ class SaveTracks
 
   def create_new_users(feed)
     feed.map {|item| item['from'] }.uniq.each do |user|
+      #TODO: User.find_or_create_by(id)
       User.create(name: user['name'], uid: user['id'], provider: 'fb') unless User.find_by_uid(user['id'])
     end
   end
