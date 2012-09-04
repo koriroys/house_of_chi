@@ -16,16 +16,29 @@
 }
 
 body {
-  width: 800px;
+  width: 80%;
 }
 
 .content {
+  width: 80%;
   clear: both;
 }
 
 .flash {
   color: #52bff6;
   font-size: 2em;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  vertical-align: top;
 }
 
 .text {

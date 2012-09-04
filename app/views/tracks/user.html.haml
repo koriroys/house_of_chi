@@ -3,6 +3,10 @@
   = "#{@user.first_name} #{@user.last_initial}."
 
 %table
+  %tr
+    %th
+    %th Track
+    %th Posted on
   - @tracks.each_with_index do |track, i|
     %tr
       %td
@@ -10,4 +14,4 @@
       %td
         = link_to(truncate(track.title, length: 57) || "ID", track.url, target: '_blank')
       %td
-        = (track.posted_on - 6.hours).strftime("Posted on %B %d at %-l:%M %p")
+        = (track.posted_on - 6.hours).strftime("%B %d at %-l:%M %p")
