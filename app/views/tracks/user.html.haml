@@ -2,6 +2,12 @@
   Tracks posted by
   = "#{@user.first_name} #{@user.last_initial}."
 
+%h2.text
+  Back to
+  = link_to "all tracks", tracks_path
+
+%p= paginate @tracks
+
 %table
   %tr
     %th
