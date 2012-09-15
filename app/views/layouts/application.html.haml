@@ -15,5 +15,6 @@
         = button_to "Sign out", signout_path, class: 'button', method: 'get'
       - else
         = button_to "Sign in with Facebook", "/auth/facebook", class: 'button', method: 'get'
+      = render 'layouts/google_analytics' if Rails.env.production?
     %div.content
       = yield
