@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.find_or_create(uid, name, provider)
+    find_by_uid(uid) || User.create(name: name, uid: uid, provider: provider)
+  end
+
   def first_name
     name.split(" ")[0]
   end

@@ -22,4 +22,15 @@ describe User do
     end
   end
 
+  describe "find_or_create" do
+    it "returns the user if the user already exists" do
+      User.create!(name: 'kori', uid: 'test_user', provider: 'fb')
+      User.count.should == 1
+      expect(User.find_or_create('test_user', 'kori', 'fb').name).to eq('kori')
+    end
+
+    it "creates and returns the user if the user doesn't exist" do
+      expect(User.find_or_create('test_user', 'kori', 'fb').name).to eq('kori')
+    end
+  end
 end
