@@ -14,13 +14,10 @@ class Track < ActiveRecord::Base
 
   scope :from_yesterday, ->{ where("created_at < ?", 1.day.ago) }
   scope :exists, ->(url, user_id){ where("url = ? AND user_id = ?", url, user_id) }
+  scope :recent_first, ->{ order("posted_on DESC") }
 
   def self.already_exists?(url, user_id)
     exists(url, user_id).present?
-  end
-
-  def self.with_users
-    includes(:user).order("posted_on DESC")
   end
 
   def self.text_search(query)
