@@ -8,6 +8,10 @@ class SessionsController < ApplicationController
     redirect_to root_url, notice: "Signed in"
   end
 
+  def redirect
+    redirect_to '/auth/facebook'
+  end
+
   def destroy
     reset_session
     redirect_to root_url, notice: "Signed out"

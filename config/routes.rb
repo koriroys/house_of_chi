@@ -6,6 +6,7 @@ HouseOfChiPlaylist::Application.routes.draw do
   get '/feed' => 'playlists#feed'
   get '/tracks/user/:id' => 'tracks#user', as: 'user_tracks'
 
+  get 'login' => 'sessions#redirect'
   get '/auth/facebook/callback' => 'sessions#create'
   match 'auth/failure', to: redirect('/')
   get 'signout' => 'sessions#destroy', as: 'signout'
