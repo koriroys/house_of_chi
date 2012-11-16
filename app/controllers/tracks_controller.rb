@@ -1,7 +1,7 @@
 class TracksController < ApplicationController
 
   def index
-    @tracks = Track.page(params[:page]).per(25).with_users
+    @tracks = Track.text_search(params[:query]).page(params[:page]).per(25)
   end
 
   def user

@@ -10,6 +10,7 @@ gem 'haml-rails'
 gem 'omniauth-facebook'
 gem 'simplecov', :require => false, :group => :test
 gem 'kaminari', '~> 0.13.0'
+gem 'texticle', require: 'texticle/rails'
 gem 'pg'
 
 group :development, :test do

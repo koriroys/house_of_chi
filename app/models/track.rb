@@ -1,4 +1,8 @@
+require 'texticle/searchable'
+
 class Track < ActiveRecord::Base
+  extend Searchable(:title)
+
   belongs_to :user
 
   attr_accessible :source, :url, :user, :posted_on, :title
@@ -11,11 +15,19 @@ class Track < ActiveRecord::Base
   scope :from_yesterday, ->{ where("created_at < ?", 1.day.ago) }
   scope :exists, ->(url, user_id){ where("url = ? AND user_id = ?", url, user_id) }
 
-  def self.exists?(url, user_id)
+  def self.already_exists?(url, user_id)
     exists(url, user_id).present?
   end
 
   def self.with_users
     includes(:user).order("posted_on DESC")
+  end
+
+  def self.text_search(query)
+    if query.present?
+      search(query)
+    else
+      scoped
+    end
   end
 end
