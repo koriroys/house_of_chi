@@ -22,8 +22,8 @@ class SaveTracks
       user = User.find_by_uid(feed_item.user_fb_id)
       source_site = feed_item.source_site
       url = extract_url(source_site, item)
-      unless Track.exists(url, user.id).present?
-        Track.create(source: source_site, url: url, user: user, posted_on: item['created_time'], title: item['name'])
+      unless Track.already_exists?(url, user.id)
+        create_track(source_site, url, user, item['created_time'], item['name'])
       end
 
       # comments section
@@ -35,6 +35,10 @@ class SaveTracks
         end
       end
     end
+  end
+
+  def create_track(source_site, url, user, posted_on, title)
+    Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
   end
 
   def extract_url(source_site, item)
@@ -58,8 +62,8 @@ class SaveTracks
       url = comment['message'].match(/http:\/\/[^&|\s]*/).to_s
       source_site = comment['message'].match(/youtube|soundcloud|youtu\.be/).to_s
       if url.present? && SOURCE_SITE.has_key?(source_site)
-        unless Track.exists(url, user.id).present?
-          Track.create(source: SOURCE_SITE[source_site], url: url, user: user, posted_on: comment['created_time'], title: comment['name'])
+        unless Track.already_exists?(url, user.id)
+          create_track(SOURCE_SITE[source_site], url, user, comment['created_time'], comment['name'])
         end
       end
     end
