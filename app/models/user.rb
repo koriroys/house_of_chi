@@ -21,11 +21,9 @@ class User < ActiveRecord::Base
     find_by_uid(uid) || User.create(name: name, uid: uid, provider: provider)
   end
 
-  def first_name
-    name.split(" ")[0]
-  end
 
-  def last_initial
-    name.split(" ").last[0]
+  def full_name
+    split_name = name.split(" ")
+    "#{split_name[0]} #{split_name.last[0]}."
   end
 end
