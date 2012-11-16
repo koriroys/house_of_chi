@@ -6,7 +6,7 @@ class TracksController < ApplicationController
 
   def user
     @user = User.find params[:id]
-    @tracks = @user.tracks.page(params[:page]).with_users
+    @tracks = @user.tracks.page(params[:page]).recent_first
   end
 
 end
