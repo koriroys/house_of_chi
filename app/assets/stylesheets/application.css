@@ -9,49 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require scaffolds
+ *= require homepage
 */
-.banner {
-  float: left;
-}
-
-body {
-  width: 80%;
-}
-
-.content {
-  width: 80%;
-  clear: both;
-}
-
-.flash {
-  color: #52bff6;
-  font-size: 2em;
-}
-
-table {
-  width: 100%;
-}
-
-th {
-  text-align: left;
-}
-
-td {
-  vertical-align: top;
-}
-
-.text {
-  color: #52bff6;
-}
-
-.button {
-  float: right;
-  background-color: #52bff6;
-  border-radius: 20px;
-  border: 1px solid black;
-}
-
-.button_pressed {
-  background-color: red;
-}

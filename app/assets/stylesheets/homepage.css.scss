@@ -1,0 +1,62 @@
+.banner {
+  margin: auto 0;
+}
+
+body {
+  width: 800px;
+  margin: auto;
+}
+
+.content {
+  width: 800px;
+}
+
+.flash {
+  color: #52bff6;
+  font-size: 2em;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  vertical-align: top;
+}
+
+.text {
+  color: #52bff6;
+}
+
+.button {
+  background-color: #52bff6;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.button_pressed {
+  background-color: red;
+}
+
+#leaderboard {
+  float: left;
+  list-style: none;
+}
+
+#alltracks {
+  float: right;
+  margin: 10px 200px 0px 0px;
+}
+
+#search {
+  float: right;
+  margin: 20px 200px 0px 0px;
+}
+
+.banner a:hover {
+  background-color: #FFF;
+}
