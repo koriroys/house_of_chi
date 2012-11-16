@@ -12,7 +12,6 @@ describe "user profile" do
   it "shows the user's tracks" do
     user = FactoryGirl.create(:user)
     track = FactoryGirl.create(:track, user: user)
-    p track
     visit user_tracks_path(user)
     expect(page).to have_content("Tracks posted by Buck C.")
     expect(page).to have_content track.title

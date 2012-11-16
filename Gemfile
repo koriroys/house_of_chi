@@ -10,9 +10,9 @@ gem 'haml-rails'
 gem 'omniauth-facebook'
 gem 'simplecov', :require => false, :group => :test
 gem 'kaminari', '~> 0.13.0'
+gem 'pg'
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'capybara'
@@ -22,7 +22,6 @@ end
 
 group :production do
   gem 'newrelic_rpm'
-  gem 'pg'
 end
 
 group :assets do
