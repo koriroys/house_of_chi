@@ -1,3 +1,10 @@
 %p
   = link_to "All Tracks", tracks_path
   = render 'tracks/search'
+#leaderboard
+  %h2 Leaderboard
+  - @leaders.each do |leader|
+    %li
+      = link_to leader.full_name, user_tracks_path(leader)
+      = "- #{leader.track_count} tracks"
+

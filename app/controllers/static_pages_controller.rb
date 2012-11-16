@@ -1,3 +1,5 @@
 class StaticPagesController < ApplicationController
-  def index; end
+  def index
+    @leaders = User.leaders
+  end
 end

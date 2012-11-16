@@ -21,6 +21,9 @@ class User < ActiveRecord::Base
     find_by_uid(uid) || User.create(name: name, uid: uid, provider: provider)
   end
 
+  def self.leaders
+    order('track_count desc').take(5)
+  end
 
   def full_name
     split_name = name.split(" ")
