@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120828152910) do
+ActiveRecord::Schema.define(:version => 20121116072655) do
 
   create_table "playlists", :force => true do |t|
     t.string   "name"
@@ -34,8 +34,9 @@ ActiveRecord::Schema.define(:version => 20120828152910) do
     t.string   "uid"
     t.string   "name"
     t.string   "fb_token"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "track_count", :default => 0
   end
 
 end

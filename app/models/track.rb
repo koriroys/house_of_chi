@@ -3,6 +3,11 @@ require 'texticle/searchable'
 class Track < ActiveRecord::Base
   extend Searchable(:title)
 
+  after_save do |track|
+    user = User.find(track.user_id)
+    user.update_attribute(:track_count, user.tracks.count)
+  end
+
   belongs_to :user
 
   attr_accessible :source, :url, :user, :posted_on, :title
