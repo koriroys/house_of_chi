@@ -1,9 +1,5 @@
 #leaderboard
-  %h2 Leaderboard
-  - @leaders.each do |leader|
-    %li
-      = link_to leader.full_name, user_tracks_path(leader)
-      = "- #{leader.track_count} tracks"
+  = render 'leaderboard', leaders: @leaders
+  = link_to 'See all', users_path
 #alltracks
   = button_to "All Tracks", tracks_path, class: 'button', method: :get
-

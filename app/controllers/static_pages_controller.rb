@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
   def index
-    @leaders = User.leaders
+    @leaders = User.top_5_track_count
   end
 end

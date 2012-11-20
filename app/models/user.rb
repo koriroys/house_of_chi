@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
 
   validates :name, :uid, :provider, presence: true
 
+  scope :highest_track_count, -> { order('track_count DESC') }
+  scope :top_5_track_count, -> { highest_track_count.take(5) }
+
   def self.from_omniauth(auth)
     where(auth.slice("provider", "uid")).first || create_from_omniauth(auth)
   end
@@ -19,10 +22,6 @@ class User < ActiveRecord::Base
 
   def self.find_or_create(uid, name, provider)
     find_by_uid(uid) || User.create(name: name, uid: uid, provider: provider)
-  end
-
-  def self.leaders
-    order('track_count desc').take(5)
   end
 
   def full_name

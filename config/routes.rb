@@ -3,6 +3,7 @@ HouseOfChiPlaylist::Application.routes.draw do
 
   get '/tracks' => 'tracks#index'
   get '/tracks/user/:id' => 'tracks#user', as: 'user_tracks'
+  get '/users' => 'users#index'
 
   get 'login' => 'sessions#redirect'
   get '/auth/facebook/callback' => 'sessions#create'
