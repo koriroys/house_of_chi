@@ -3,8 +3,7 @@ require 'helpers/omniauth_helper'
 
 describe "authentication" do
   before do
-    visit root_url
-    click_button 'Sign in with Facebook'
+    visit login_path
   end
 
   it "logs in with facebook" do
