@@ -21,3 +21,4 @@
 /config/initializers/_ENV.rb
 
 .sass-cache
+*.DS_Store
