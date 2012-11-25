@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates :name, :uid, :provider, presence: true
 
   scope :highest_track_count, -> { where('track_count > 0').order('track_count DESC') }
-  scope :top_5_track_count, -> { highest_track_count.take(5) }
+  scope :top_5_track_count, -> { highest_track_count.limit(5) }
 
   def self.from_omniauth(auth)
     where(auth.slice("provider", "uid")).first || create_from_omniauth(auth)
