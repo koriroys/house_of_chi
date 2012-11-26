@@ -11,3 +11,11 @@ namespace :hoc do
     puts "Finished. #{Track.count - track_count} new tracks added."
   end
 end
+
+namespace :oneoff do
+  task :update_youtube_video_ids => [:environment] do |t, args|
+    Track.where(source: 'youtube').each do |track|
+      track.update_attribute(:source_track_id, track.url.split('=')[1])
+    end
+  end
+end
