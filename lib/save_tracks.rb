@@ -1,4 +1,5 @@
 require 'feed_item'
+require 'httparty'
 
 class SaveTracks
   HOC_GROUP_NUMBER = '179298008840024'
@@ -38,7 +39,15 @@ class SaveTracks
   end
 
   def create_track(source_site, url, user, posted_on, title)
-    Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
+    if source_site == 'youtube'
+      video_id = url.split('=')[1]
+      response = HTTParty.get("https://www.googleapis.com/youtube/v3/videos?id=#{video_id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet&fields=items(snippet/title)")
+      new_title = response['items'].first['snippet']['title'] unless response['items'].empty?
+      track = Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
+    else
+      track = Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
+    end
+    puts "Created track: #{track.title}"
   end
 
   def extract_url(source_site, item)

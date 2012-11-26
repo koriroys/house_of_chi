@@ -12,6 +12,7 @@ gem 'simplecov', :require => false, :group => :test
 gem 'kaminari', '~> 0.13.0'
 gem 'texticle', require: 'texticle/rails'
 gem 'pg'
+gem 'httparty'
 
 group :development, :test do
   gem 'factory_girl_rails'

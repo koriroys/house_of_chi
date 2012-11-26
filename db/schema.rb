@@ -11,16 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121120055919) do
+ActiveRecord::Schema.define(:version => 20121125233104) do
 
   create_table "tracks", :force => true do |t|
     t.string   "source"
     t.string   "url"
     t.integer  "user_id"
     t.datetime "posted_on"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "title"
+    t.string   "source_track_id"
   end
 
   create_table "users", :force => true do |t|

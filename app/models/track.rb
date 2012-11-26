@@ -10,7 +10,7 @@ class Track < ActiveRecord::Base
 
   belongs_to :user
 
-  attr_accessible :source, :url, :user, :posted_on, :title
+  attr_accessible :source, :url, :user, :posted_on, :title, :source_track_id
 
   # t.string :source # youtube|soundcloud
   # t.string :url
