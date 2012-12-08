@@ -7,9 +7,44 @@ class SaveTracks
 
   #TODO: better names.
   def house_of_chi
-    feed = filter_links(group_feed(HOC_GROUP_NUMBER))
+    raw_feed = group_feed(HOC_GROUP_NUMBER)
+    feed = filter_links(raw_feed)
     create_new_users(feed.map {|item| item['from'] }.uniq)
     create_tracks_from_feed(feed)
+    comments = raw_feed.map do |item|
+      if item['comments']
+        if item['comments']['count'] > 0
+          item['comments']['data']
+        end
+      end
+    end.flatten
+    create_tracks_from_comments(comments)
+  end
+
+  def create_tracks_from_comments(comments)
+    users = comments.compact.map{ |comment| comment['from'] if comment['from'] }.compact
+    create_new_users(users)
+    comments.each do |comment|
+      next if comment.blank?
+      user = User.find_by_uid(comment['from']['id'])
+      url = url_extractor(comment['message'])
+      source_site = source_site_extractor(comment['message'])
+      if SOURCE_SITE.include?(source_site)
+        unless Track.already_exists?(url, user.id)
+          create_track(source_site, url, user, comment['created_time'], 'unknown')
+        end
+      end
+    end
+  end
+
+  def url_extractor(link)
+    link.match(/http:\/\/[^&|\s]*/).to_s
+  end
+
+  def source_site_extractor(link)
+    match = link.match(/youtube|soundcloud|youtu\.be/).to_s
+    p "#{link} || matches || #{match} \n"
+    match == 'youtu.be' ? 'youtube' : match
   end
 
   def filter_links(feed)
