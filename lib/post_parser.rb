@@ -7,11 +7,11 @@ class PostParser
     tracks = raw_posts.each.with_object([]) do |post, tracks|
       tracks << PostTrackInfo.new(post: post)
     end
-    tracks.select{ |t| matches(t.link) }
+    tracks.select{ |t| matches(t.url) }
   end
 
-  def matches(link)
-    link.match(/https?:\/\/w*\.?(youtu\.be|youtube|soundcloud)(\.com)?/)
+  def matches(url)
+    url.match(/https?:\/\/w*\.?(youtu\.be|youtube|soundcloud)(\.com)?/)
   end
 
   private
@@ -19,13 +19,28 @@ class PostParser
 end
 
 class PostTrackInfo
-  attr_reader :link
-  def initialize(options)
-    self.post = options[:post]
-    self.link = post[:link] || ''
+  attr_reader :source, :url, :user_id, :posted_on, :title, :source_track_id
+  def initialize(options={post: {}})
+    self.post            = options[:post]
+    self.source          = post[:source]          || ''
+    self.url             = post[:link]            || ''
+    self.user_id         = post[:user_id]         || ''
+    self.posted_on       = post[:posted_on]       || ''
+    self.title           = post[:title]           || ''
+    self.source_track_id = post[:source_track_id] || ''
   end
 
   private
-  attr_writer :link
   attr_accessor :post
+  attr_writer :source, :url, :user_id, :posted_on, :title, :source_track_id
 end
+
+#Track(id: integer,
+#      source: string,
+#      url: string,
+#      user_id: integer,
+#      posted_on: datetime,
+#      created_at: datetime,
+#      updated_at: datetime,
+#      title: string,
+#      source_track_id: string)
