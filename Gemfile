@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
 # Platform
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.11'
 gem 'jquery-rails'
 
 # Application
-gem 'koala'
+gem 'koala', '~> 1.6.0'
 gem 'haml-rails'
 gem 'omniauth-facebook'
 gem 'simplecov', :require => false, :group => :test
