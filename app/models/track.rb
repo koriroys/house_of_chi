@@ -1,4 +1,4 @@
-require 'texticle/searchable'
+require 'textacular/searchable'
 
 class Track < ActiveRecord::Base
   extend Searchable(:title)
