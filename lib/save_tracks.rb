@@ -1,4 +1,4 @@
-require 'feed_item'
+require 'post'
 require 'httparty'
 
 class SaveTracks
@@ -45,7 +45,6 @@ class SaveTracks
 
   def source_site_extractor(link)
     match = link.match(/youtube|soundcloud|youtu\.be/).to_s
-    p "#{link} || matches || #{match} \n"
     match == 'youtu.be' ? 'youtube' : match
   end
 
@@ -55,22 +54,18 @@ class SaveTracks
 
   #TODO: item rename to 'post'
   def create_tracks_from_feed(feed)
-    feed.each do |item|
-      feed_item = FeedItem.new(item)
-      user = User.find_by_uid(feed_item.user_fb_id)
-      source_site = feed_item.source_site
-      url = extract_url(source_site, item)
-      unless Track.already_exists?(url, user.id)
-        create_track(source_site, url, user, item['created_time'], item['name'])
+    posts = feed.map{ |post| Post.new(post) }
+    posts.each do |post|
+      user = User.find_by_uid(post.user_fb_id)
+      unless Track.already_exists?(post.url, user.id)
+        create_track(post.source_site, post.url, user, post.posted_on, post.title)
       end
 
       # comments section
       # TODO: clean up duplicate code
       # next line here because example data is stale eg doesn't have 'comments'
-      if item['comments']
-        if item['comments']['count'] > 0
-          comments(item['comments']['data'])
-        end
+      if post.comments && post.comments['count'] > 0
+        comments(post.comments['data'])
       end
     end
   end
@@ -82,11 +77,10 @@ class SaveTracks
       unless response.response.code == '503'
         new_title = response['items'].first['snippet']['title'] unless response['items'].empty?
       end
-      track = Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
+      Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
     else
-      track = Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
+      Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
     end
-    puts "Created track: #{track.title}"
   end
 
   def extract_url(source_site, item)
