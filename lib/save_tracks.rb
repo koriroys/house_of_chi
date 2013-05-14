@@ -105,7 +105,7 @@ class SaveTracks
       source_site = comment['message'].match(/youtube|soundcloud|youtu\.be/).to_s
       if url.present? && SOURCE_SITE.has_key?(source_site)
         unless Track.already_exists?(url, user.id)
-          create_track(SOURCE_SITE[source_site], url, user, comment['created_time'], comment['name'])
+          create_track(SOURCE_SITE[source_site], url, user, comment['created_time'], 'what')
         end
       end
     end
@@ -120,6 +120,6 @@ class SaveTracks
     user = User.find_by_uid('13708826')
     graph = Koala::Facebook::API.new(user.fb_token)
     ## house of chi feed
-    graph.get_connections(group_id, 'feed?since=yesterday&limit=200', { fields: 'id,from,link,created_time,name,comments' })
+    graph.get_connections(group_id, 'feed?since=yesterday&limit=200', { fields: 'from,link,created_time,name,comments' })
   end
 end
