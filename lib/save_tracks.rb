@@ -15,9 +15,7 @@ class SaveTracks
     create_tracks_from_feed(feed)
     comments = raw_feed.map do |item|
       if item['comments']
-        if item['comments']['count'] > 0
-          item['comments']['data']
-        end
+        item['comments']['data']
       end
     end.flatten
     create_tracks_from_comments(comments)
@@ -64,7 +62,7 @@ class SaveTracks
       # comments section
       # TODO: clean up duplicate code
       # next line here because example data is stale eg doesn't have 'comments'
-      if post.comments && post.comments['count'] > 0
+      if post.comments && post.comments['data'].present?
         comments(post.comments['data'])
       end
     end
@@ -120,6 +118,6 @@ class SaveTracks
     user = User.find_by_uid('13708826')
     graph = Koala::Facebook::API.new(user.fb_token)
     ## house of chi feed
-    graph.get_connections(group_id, 'feed?since=yesterday&limit=200', { fields: 'from,link,created_time,name,comments' })
+    graph.get_connections(group_id, 'feed?since=yesterday&limit=20', { fields: 'from,link,created_time,name,comments' })
   end
 end

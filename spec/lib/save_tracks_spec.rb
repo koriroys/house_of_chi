@@ -25,6 +25,17 @@ describe 'SaveTracks' do
       s.house_of_chi
       expect(Track.count).to eq(28)
     end
+
+    it "grabs the urls out of comments too" do
+      s = SaveTracks.new
+      f = File.read('./spec/lib/new_feed_with_comments.json')
+      s.stub(:group_feed).and_return(JSON.parse(f))
+      s.class.stub(:get).and_return(
+        OpenStruct.new(response: OpenStruct.new(code: '503'))
+      )
+      s.house_of_chi
+      expect(Track.count).to eq(6)
+    end
   end
 
   describe "#source_site" do
