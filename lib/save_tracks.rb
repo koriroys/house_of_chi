@@ -75,14 +75,6 @@ class SaveTracks
     end
   end
 
-  def extract_url(source_site, item)
-    if source_site == 'youtube'
-      item['link'].match(/([^&]*)/)[1].to_s
-    else
-      item['link']
-    end
-  end
-
   def source_site(url)
     SOURCE_SITE[url.match(/youtube|soundcloud|youtu\.be/).to_s] #item.source_site
   end
