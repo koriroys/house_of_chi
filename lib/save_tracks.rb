@@ -9,15 +9,18 @@ class SaveTracks
 
   #TODO: better names.
   def house_of_chi
-    raw_feed = group_feed(HOC_GROUP_NUMBER)
-    create_new_users(raw_feed.map {|item| item['from'] }.uniq)
-    create_tracks_from_feed(raw_feed)
-    comments = raw_feed.map do |item|
+    feed = group_feed(HOC_GROUP_NUMBER)
+    create_new_users(feed.map {|item| item['from'] }.uniq)
+    create_tracks_from_feed(feed)
+    create_tracks_from_comments(extract_comments(feed))
+  end
+
+  def extract_comments(feed)
+    feed.map do |item|
       if item['comments']
         item['comments']['data']
       end
     end.flatten
-    create_tracks_from_comments(comments)
   end
 
   def create_tracks_from_comments(comments)
