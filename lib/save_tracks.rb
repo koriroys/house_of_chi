@@ -23,8 +23,7 @@ class SaveTracks
   def create_tracks_from_comments(comments)
     users = comments.compact.map{ |comment| comment['from'] if comment['from'] }.compact
     create_new_users(users)
-    comments.each do |comment|
-      next if comment.blank?
+    comments.compact.each do |comment|
       user = User.find_by_uid(comment['from']['id'])
       url = url_extractor(comment['message'])
       source_site = source_site_extractor(comment['message'])
