@@ -10,9 +10,8 @@ class SaveTracks
   #TODO: better names.
   def house_of_chi
     raw_feed = group_feed(HOC_GROUP_NUMBER)
-    feed = filter_links(raw_feed)
-    create_new_users(feed.map {|item| item['from'] }.uniq)
-    create_tracks_from_feed(feed)
+    create_new_users(raw_feed.map {|item| item['from'] }.uniq)
+    create_tracks_from_feed(raw_feed)
     comments = raw_feed.map do |item|
       if item['comments']
         item['comments']['data']
@@ -46,13 +45,9 @@ class SaveTracks
     match == 'youtu.be' ? 'youtube' : match
   end
 
-  def filter_links(feed)
-    feed.select {|item| item['link'] =~ /youtube|soundcloud|youtu\.be/i }
-  end
-
   #TODO: item rename to 'post'
   def create_tracks_from_feed(feed)
-    posts = feed.map{ |post| Post.new(post) }
+    posts = feed.map{ |post| Post.new(post) }.select{ |p| p.source_site.present? }
     posts.each do |post|
       user = User.find_by_uid(post.user_fb_id)
       unless Track.already_exists?(post.url, user.id)

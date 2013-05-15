@@ -20,6 +20,7 @@ group :development, :test do
   gem 'capybara'
   gem 'debugger'
   gem 'factory_girl_rails'
+  gem 'pry-rails'
 end
 
 group :production do
