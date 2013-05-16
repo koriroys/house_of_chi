@@ -39,7 +39,7 @@ describe 'SaveTracks' do
   end
 
   describe "#source_site" do
-    it "extracts the source site from the given link" do
+    xit "extracts the source site from the given link" do
       s = SaveTracks.new
       expect(s.source_site("http://youtube.com/watch/v=5lahyssah")).to eq("youtube")
       expect(s.source_site("http://youtu.be/4f_fWJbYkdk")).to eq("youtube")

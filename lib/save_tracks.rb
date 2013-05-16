@@ -78,10 +78,6 @@ class SaveTracks
     end
   end
 
-  def source_site(url)
-    SOURCE_SITE[url.match(/youtube|soundcloud|youtu\.be/).to_s] #item.source_site
-  end
-
   #TODO: extraction
   def comments(data)
     create_new_users(data.map {|item| item['from'] }.uniq)

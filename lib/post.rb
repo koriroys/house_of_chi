@@ -26,3 +26,7 @@ class Post
   end
 
 end
+
+class Comment
+
+end
