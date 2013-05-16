@@ -9,7 +9,7 @@ class SaveTracks
   #TODO: better names.
   def house_of_chi
     feed = group_feed(HOC_GROUP_NUMBER)
-    create_new_users(feed.map {|item| item['from'] }.uniq)
+    create_new_users(feed.map {|post| post['from'] }.uniq)
     create_tracks_from_feed(feed)
     create_tracks_from_comments(extract_comments(feed))
   end

@@ -16,13 +16,9 @@ class Post
   def initialize(post)
     @user_fb_id = post['from']['id']
     @posted_on = post['created_time']
-    if post['link']
-      @source_site = source_site_extractor(post['link'])
-      @url = url_extractor(post['link'])
-    else
-      @source_site = ''
-      @url = ''
-    end
+    @url = url_extractor(post['link'] || post['message'] || '')
+    @source_site = source_site_extractor(post['link'] || '')
+    p [source_site, url]
     @title = post['name'] || 'ID'
     @comments = post['comments']
   end
