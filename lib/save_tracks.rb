@@ -46,16 +46,15 @@ class SaveTracks
   end
 
   def create_track(source_site, url, user, posted_on, title)
+    # extract youtube
     if source_site == 'youtube'
       video_id = url.split('=')[1]
       response = self.class.get("https://www.googleapis.com/youtube/v3/videos?id=#{video_id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet&fields=items(snippet/title)")
       unless response.response.code == '503'
         new_title = response['items'].first['snippet']['title'] unless response['items'].empty?
       end
-      Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
-    else
-      Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
     end
+    Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
   end
 
   def create_new_users(users)
