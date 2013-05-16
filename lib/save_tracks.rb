@@ -22,7 +22,6 @@ class SaveTracks
     end.flatten.compact
   end
 
-  #TODO: extraction
   def create_tracks_from_comments(comments)
     create_new_users(comments.map {|item| item['from'] }.uniq)
     comments = comments.map{ |comment| Comment.new(comment) }.
@@ -36,16 +35,6 @@ class SaveTracks
     end
   end
 
-  def url_extractor(link)
-    link.match(/http:\/\/[^&|\s]*/).to_s
-  end
-
-  def source_site_extractor(link)
-    match = link.match(/youtube|soundcloud|youtu\.be/).to_s
-    match == 'youtu.be' ? 'youtube' : match
-  end
-
-  #TODO: item rename to 'post'
   def create_tracks_from_feed(feed)
     posts = feed.map{ |post| Post.new(post) }.select{ |p| p.source_site.present? }
     posts.each do |post|
@@ -77,7 +66,9 @@ class SaveTracks
     ## my fb_user_id
     user = User.find_by_uid('13708826')
     graph = Koala::Facebook::API.new(user.fb_token)
+    fields = 'from,link,created_time,name,comments'
+    options = 'feed?since=yesterday&limit=20'
     ## house of chi feed
-    graph.get_connections(group_id, 'feed?since=yesterday&limit=20', { fields: 'from,link,created_time,name,comments' })
+    graph.get_connections(group_id, options, { fields: fields})
   end
 end
