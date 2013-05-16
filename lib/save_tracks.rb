@@ -67,7 +67,7 @@ class SaveTracks
     user = User.find_by_uid('13708826')
     graph = Koala::Facebook::API.new(user.fb_token)
     fields = 'from,link,created_time,name,comments'
-    options = 'feed?since=yesterday&limit=20'
+    options = 'feed?since=yesterday&limit=200'
     ## house of chi feed
     graph.get_connections(group_id, options, { fields: fields})
   end
