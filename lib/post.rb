@@ -28,5 +28,21 @@ class Post
 end
 
 class Comment
+  attr_accessor :url, :source_site, :from_id, :posted_on
 
+  def initialize(comment)
+    @source_site = source_site_extractor(comment['message'])
+    @url = url_extractor(comment['message'])
+    @from_id = comment['from']['id']
+    @posted_on = comment['created_time']
+  end
+
+  def source_site_extractor(message)
+    match = message.match(/youtube|soundcloud|youtu\.be/).to_s
+    match == 'youtu.be' ? 'youtube' : match
+  end
+
+  def url_extractor(link)
+    link.match(/http:\/\/[^&|\s]*/).to_s
+  end
 end
