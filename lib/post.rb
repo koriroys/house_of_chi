@@ -5,7 +5,7 @@ module UrlExtractor
   end
 
   def url_extractor(text)
-    text.match(/http:\/\/[^&|\s]*/).to_s
+    text.match(/https?:\/\/[^&|\s]*/).to_s
   end
 end
 
@@ -17,8 +17,7 @@ class Post
     @user_fb_id = post['from']['id']
     @posted_on = post['created_time']
     @url = url_extractor(post['link'] || post['message'] || '')
-    @source_site = source_site_extractor(post['link'] || '')
-    p [source_site, url]
+    @source_site = source_site_extractor(url || '')
     @title = post['name'] || 'ID'
     @comments = post['comments']
   end

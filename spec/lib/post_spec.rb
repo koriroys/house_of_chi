@@ -1,5 +1,19 @@
 require 'spec_helper'
-require './lib/feed_item'
+
+class Dummy
+  include UrlExtractor
+end
+
+describe UrlExtractor do
+  let(:dummy) { Dummy.new }
+
+  it 'extracts urls correctly' do
+    expect(dummy.url_extractor('http://google.com')).to eq('http://google.com')
+    expect(dummy.url_extractor('https://google.com')).to eq('https://google.com')
+    expect(dummy.url_extractor('https://google.com?whatever')).to eq('https://google.com?whatever')
+    expect(dummy.url_extractor('https://google.com?whatever&more_stuff')).to eq('https://google.com?whatever')
+  end
+end
 
 describe Post do
   context "initializer basics" do
