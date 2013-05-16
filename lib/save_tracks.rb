@@ -5,7 +5,6 @@ class SaveTracks
   include HTTParty
 
   HOC_GROUP_NUMBER = '179298008840024'
-  SOURCE_SITE = { 'youtube' => 'youtube', 'youtu.be' => 'youtube', 'soundcloud' => 'soundcloud' }
 
   #TODO: better names.
   def house_of_chi
@@ -16,24 +15,23 @@ class SaveTracks
   end
 
   def extract_comments(feed)
-    feed.map do |item|
-      if item['comments']
-        item['comments']['data']
+    feed.map do |post|
+      if post['comments']
+        post['comments']['data']
       end
     end.flatten.compact
   end
 
+  #TODO: extraction
   def create_tracks_from_comments(comments)
-    users = comments.map{ |comment| comment['from'] if comment['from'] }.compact
-    create_new_users(users)
-    comments.compact.each do |comment|
-      user = User.find_by_uid(comment['from']['id'])
-      url = url_extractor(comment['message'])
-      source_site = source_site_extractor(comment['message'])
-      if SOURCE_SITE.include?(source_site)
-        unless Track.already_exists?(url, user.id)
-          create_track(source_site, url, user, comment['created_time'], 'unknown')
-        end
+    create_new_users(comments.map {|item| item['from'] }.uniq)
+    comments = comments.map{ |comment| Comment.new(comment) }.
+      select{ |c| c.source_site.present? }
+
+    comments.each do |c|
+      user = User.find_by_uid(c.from_id)
+      unless Track.already_exists?(c.url, user.id)
+        create_track(c.source_site, c.url, user, c.posted_on, 'what')
       end
     end
   end
@@ -55,13 +53,6 @@ class SaveTracks
       unless Track.already_exists?(post.url, user.id)
         create_track(post.source_site, post.url, user, post.posted_on, post.title)
       end
-
-      # comments section
-      # TODO: clean up duplicate code
-      # next line here because example data is stale eg doesn't have 'comments'
-      if post.comments && post.comments['data'].present?
-        comments(post.comments['data'])
-      end
     end
   end
 
@@ -75,20 +66,6 @@ class SaveTracks
       Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
     else
       Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title)
-    end
-  end
-
-  #TODO: extraction
-  def comments(data)
-    create_new_users(data.map {|item| item['from'] }.uniq)
-    comments = data.map{ |comment| Comment.new(comment) }.
-      select{ |c| c.source_site.present? }
-
-    comments.each do |c|
-      user = User.find_by_uid(c.from_id)
-      unless Track.already_exists?(c.url, user.id)
-        create_track(c.source_site, c.url, user, c.posted_on, 'what')
-      end
     end
   end
 
