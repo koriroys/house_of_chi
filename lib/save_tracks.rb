@@ -9,28 +9,29 @@ class SaveTracks
   #TODO: better names.
   def house_of_chi
     feed = group_feed(HOC_GROUP_NUMBER)
-    create_new_users(feed.map{|post| post['from'] }.uniq)
     posts = extract_posts(feed)
-    comments = extract_comments(feed)
+    comments = extract_comments_from_feed(feed)
+    users = extract_users(feed, comments)
 
-    create_new_users(comments.map{|comment| comment['from'] }.uniq)
+    create_new_users(users)
     create_tracks_from_posts(posts)
     comments = comments.map{ |comment| Comment.new(comment) }.
       select{ |c| c.source_site.present? }
-
     create_tracks_from_comments(comments)
+  end
+
+  def extract_users(feed, comments)
+    users = feed.map{|post| post['from'] }
+    users += comments.map{ |comment| comment['from'] }
+    users.uniq!
   end
 
   def extract_posts(feed)
     feed.map{ |post| Post.new(post) }.select{ |p| p.source_site.present? }
   end
 
-  def extract_comments(feed)
-    feed.map do |post|
-      if post['comments']
-        post['comments']['data']
-      end
-    end.flatten.compact
+  def extract_comments_from_feed(feed)
+    feed.select{ |post| post['comments'].present? }.map{ |post| post['comments']['data'] }.flatten.compact
   end
 
   def create_tracks_from_comments(comments)
