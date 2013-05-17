@@ -13,6 +13,7 @@ describe 'SaveTracks' do
       )
       s.house_of_chi
       expect(Track.count).to eq(17)
+      expect(User.count).to eq(21)
     end
 
     it "grabs the urls out of comments too" do
@@ -24,6 +25,7 @@ describe 'SaveTracks' do
       )
       s.house_of_chi
       expect(Track.count).to eq(28)
+      expect(User.count).to eq(49)
     end
 
     it "grabs the urls out of new comments too" do
@@ -35,6 +37,7 @@ describe 'SaveTracks' do
       )
       s.house_of_chi
       expect(Track.count).to eq(6)
+      expect(User.count).to eq(29)
     end
   end
 

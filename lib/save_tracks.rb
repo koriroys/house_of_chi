@@ -9,9 +9,20 @@ class SaveTracks
   #TODO: better names.
   def house_of_chi
     feed = group_feed(HOC_GROUP_NUMBER)
-    create_new_users(feed.map {|post| post['from'] }.uniq)
-    create_tracks_from_feed(feed)
-    create_tracks_from_comments(extract_comments(feed))
+    create_new_users(feed.map{|post| post['from'] }.uniq)
+    posts = extract_posts(feed)
+    comments = extract_comments(feed)
+
+    create_new_users(comments.map{|comment| comment['from'] }.uniq)
+    create_tracks_from_posts(posts)
+    comments = comments.map{ |comment| Comment.new(comment) }.
+      select{ |c| c.source_site.present? }
+
+    create_tracks_from_comments(comments)
+  end
+
+  def extract_posts(feed)
+    feed.map{ |post| Post.new(post) }.select{ |p| p.source_site.present? }
   end
 
   def extract_comments(feed)
@@ -23,10 +34,6 @@ class SaveTracks
   end
 
   def create_tracks_from_comments(comments)
-    create_new_users(comments.map {|item| item['from'] }.uniq)
-    comments = comments.map{ |comment| Comment.new(comment) }.
-      select{ |c| c.source_site.present? }
-
     comments.each do |c|
       user = User.find_by_uid(c.from_id)
       unless Track.already_exists?(c.url, user.id)
@@ -35,8 +42,7 @@ class SaveTracks
     end
   end
 
-  def create_tracks_from_feed(feed)
-    posts = feed.map{ |post| Post.new(post) }.select{ |p| p.source_site.present? }
+  def create_tracks_from_posts(posts)
     posts.each do |post|
       user = User.find_by_uid(post.user_fb_id)
       unless Track.already_exists?(post.url, user.id)
