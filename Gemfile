@@ -8,11 +8,14 @@ gem 'jquery-rails'
 gem 'koala', '~> 1.6.0'
 gem 'haml-rails'
 gem 'omniauth-facebook'
-gem 'simplecov', :require => false, :group => :test
 gem 'kaminari', '~> 0.13.0'
 gem 'textacular', '~> 3.0', require: 'textacular/rails'
 gem 'pg'
 gem 'httparty'
+
+group :test do
+  gem 'simplecov', require: false
+end
 
 group :development, :test do
   gem 'factory_girl_rails'

@@ -34,3 +34,32 @@ class Comment
     @posted_on = comment['created_time']
   end
 end
+
+class UserCreator
+  attr_reader :user_data
+  def initialize(feed)
+    @user_data = extract_users(feed)
+  end
+
+  def create_users
+    user_data.each do |user|
+      User.find_or_create(user['id'], user['name'], 'fb')
+    end
+  end
+
+  private
+
+  def extract_users(feed)
+    users = extract_post_authors(feed)
+    users += extract_comment_authors(feed)
+    users.uniq!
+  end
+
+  def extract_post_authors(feed)
+    feed.map{ |post| post['from'] }
+  end
+
+  def extract_comment_authors(feed)
+    feed.select{ |post| post['comments'].present? }.map{ |post| post['comments']['data'] }.flatten.compact.map{ |comment| comment['from'] }
+  end
+end

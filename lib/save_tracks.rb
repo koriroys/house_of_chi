@@ -9,21 +9,15 @@ class SaveTracks
   #TODO: better names.
   def house_of_chi
     feed = group_feed(HOC_GROUP_NUMBER)
+    UserCreator.new(feed).create_users
+
     posts = extract_posts(feed)
-    comments = extract_comments_from_feed(feed)
-    users = extract_users(feed, comments)
-
-    create_new_users(users)
     create_tracks_from_posts(posts)
-    comments = comments.map{ |comment| Comment.new(comment) }.
-      select{ |c| c.source_site.present? }
-    create_tracks_from_comments(comments)
-  end
 
-  def extract_users(feed, comments)
-    users = feed.map{|post| post['from'] }
-    users += comments.map{ |comment| comment['from'] }
-    users.uniq!
+    comments = extract_comments_from_feed(feed)
+    comments.map!{ |comment| Comment.new(comment) }
+    comments.select!{ |c| c.source_site.present? }
+    create_tracks_from_comments(comments)
   end
 
   def extract_posts(feed)
@@ -62,10 +56,6 @@ class SaveTracks
       end
     end
     Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: new_title || title, source_track_id: video_id)
-  end
-
-  def create_new_users(users)
-    users.each { |user| User.find_or_create(user['id'], user['name'], 'fb') }
   end
 
   def group_feed(group_id)
