@@ -60,6 +60,10 @@ class UserCreator
   end
 
   def extract_comment_authors(feed)
-    feed.select{ |post| post['comments'].present? }.map{ |post| post['comments']['data'] }.flatten.compact.map{ |comment| comment['from'] }
+    feed.select{ |post| post['comments'].present? }
+        .map{ |post| post['comments']['data'] }
+        .flatten
+        .compact
+        .map{ |comment| comment['from'] }
   end
 end
