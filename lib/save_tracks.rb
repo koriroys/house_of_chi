@@ -32,7 +32,7 @@ class SaveTracks
     comments.each do |c|
       user = User.find_by_uid(c.from_id)
       unless Track.already_exists?(c.url, user.id)
-        create_track(c.source_site, c.url, user, c.posted_on, 'what')
+        create_track(c.source_site, c.url, user, c.posted_on, nil)
       end
     end
   end
@@ -49,8 +49,10 @@ class SaveTracks
   def create_track(source_site, url, user, posted_on, title)
     if query = URI(url).query
       video_id = query.split("&").map{|q| q.split("=")}.select{|e| e[0] == "v"}.flatten.last
+    elsif url.match(/youtu\.be/)
+      video_id = url.split("/").last.split("?").first
     end
-    title = title || get_title_from_youtube(source_site, video_id) || ''
+    title = title || get_title_from_youtube(source_site, video_id) || 'ID'
     Track.create(source: source_site, url: url, user: user, posted_on: posted_on, title: title, source_track_id: video_id)
   end
 
